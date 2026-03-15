@@ -46,11 +46,8 @@ export default function DocumentUpload({ onUpload }: DocumentUploadProps) {
         </div>
         <div className="text-center">
           <div className="text-base font-semibold text-gray-800">Upload a document</div>
-          <div className="mt-1 text-sm text-gray-500">
+          <div className="mt-1 text-sm text-gray-600">
             Drop a PDF, Word, or PowerPoint file here
-          </div>
-          <div className="mt-1 text-xs text-gray-400">
-            We&apos;ll scan it for WCAG 2.1/2.2 and AODA compliance
           </div>
         </div>
         <button
@@ -62,13 +59,6 @@ export default function DocumentUpload({ onUpload }: DocumentUploadProps) {
         >
           Browse Files
         </button>
-        <div className="flex gap-3 text-[11px] text-gray-400">
-          <span>PDF</span>
-          <span>DOC</span>
-          <span>DOCX</span>
-          <span>PPTX</span>
-          <span>HTML</span>
-        </div>
       </div>
     </div>
   );

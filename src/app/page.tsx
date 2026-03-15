@@ -8,15 +8,20 @@ import QuickWins from "@/components/QuickWins";
 import SeverityCard from "@/components/SeverityCard";
 import ComplianceBar from "@/components/ComplianceBar";
 import DocumentViewer from "@/components/DocumentViewer";
+import DocumentUpload from "@/components/DocumentUpload";
+import WelcomePage from "@/components/WelcomePage";
 import { CheckCircle2, Download, Upload } from "lucide-react";
 import ResolutionSummary from "@/components/ResolutionSummary";
 import Toast from "@/components/Toast";
+
+type AppView = "welcome" | "upload" | "panel";
 
 const TOTAL_ISSUES = initialSeveritySections.reduce(
   (sum, s) => sum + s.groups.reduce((gs, g) => gs + g.items.length, 0), 0
 );
 
 export default function Home() {
+  const [view, setView] = useState<AppView>("welcome");
   const [quickWins, setQuickWins] = useState<QuickWinItem[]>(initialQuickWins);
   const [sections, setSections] = useState<SeveritySection[]>(initialSeveritySections);
   const [isRunning, setIsRunning] = useState(false);
@@ -185,10 +190,31 @@ export default function Home() {
 
   const handleUpload = useCallback((name: string) => {
     showToast(`Scanning "${name}" for accessibility issues...`);
+    setTimeout(() => setView("panel"), 1200);
   }, [showToast]);
 
   // Filter out fully resolved severity sections
   const activeSections = sections.filter((s) => countActive(s) > 0);
+
+  if (view === "welcome") {
+    return <WelcomePage onEnter={() => setView("upload")} />;
+  }
+
+  if (view === "upload") {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-50 p-8">
+        <div className="flex w-full max-w-[520px] flex-col items-center">
+          <div className="mb-1 text-[11px] font-medium text-primary-600">Step 1 of 2</div>
+          <h2 className="mb-1 text-lg font-bold text-gray-900">Upload a document to begin</h2>
+          <p className="mb-5 text-center text-[13px] text-gray-500">Any file works — we&apos;ll load a demo accessibility report We&apos;ll scan it for WCAG 2.1/2.2 and AODA compliance</p>
+          <div className="w-full">
+            <DocumentUpload onUpload={handleUpload} />
+          </div>
+        </div>
+        <Toast message={toastMessage} visible={toastVisible} onHide={hideToast} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
