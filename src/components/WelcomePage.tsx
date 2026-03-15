@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldCheck, ArrowRight, Eye, EyeOff, Upload, MousePointerClick, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, ArrowRight, Eye, EyeOff, Upload, MousePointerClick, CheckCircle2, ChevronDown } from "lucide-react";
 
 interface WelcomePageProps {
     onEnter: () => void;
@@ -13,6 +13,10 @@ export default function WelcomePage({ onEnter }: WelcomePageProps) {
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [openSection, setOpenSection] = useState<string | null>(null);
+
+    const toggleSection = (key: string) =>
+        setOpenSection((prev) => (prev === key ? null : key));
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,13 +31,6 @@ export default function WelcomePage({ onEnter }: WelcomePageProps) {
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
             <div className="w-full max-w-[480px]">
-                {/* Header icon */}
-                <div className="mb-6 flex justify-center">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-100">
-                        <ShieldCheck className="h-7 w-7 text-primary-600" strokeWidth={1.5} />
-                    </div>
-                </div>
-
                 {/* Card */}
                 <div className="rounded-[12px] border border-gray-200 bg-white px-8 py-8">
                     <h1 className="mb-1 text-center text-xl font-bold text-gray-900">
@@ -43,49 +40,73 @@ export default function WelcomePage({ onEnter }: WelcomePageProps) {
                         Design Challenge Prototype
                     </p>
 
-                    {/* Problem */}
-                    <div className="mb-5">
-                        <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wider text-primary-600">
-                            Problem
-                        </div>
-                        <p className="text-[13px] leading-relaxed text-gray-600">
-                            Instructors need to quickly understand and resolve accessibility issues
-                            in their course materials, but reports often present complex information
-                            that makes it difficult to identify priorities and take action.
-                        </p>
-                    </div>
+                    {/* Collapsible sections */}
+                    <div className="mb-5 flex flex-col gap-3">
+                        {/* Problem */}
+                        <button
+                            type="button"
+                            className="flex border border-primary-100 w-full items-center justify-between rounded-[6px] px-2 py-2 text-left transition-colors hover:bg-gray-50"
+                            onClick={() => toggleSection("problem")}
+                        >
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-primary-600">Problem</span>
+                            <ChevronDown className={`h-3.5 w-3.5 text-gray-400 transition-transform ${openSection === "problem" ? "rotate-180" : ""}`} />
+                        </button>
+                        {openSection === "problem" && (
+                            <div className="px-2 pb-2">
+                                <p className="text-[13px] leading-relaxed text-gray-600">
+                                    Instructors need to quickly understand and resolve accessibility issues
+                                    in their course materials, but reports often present complex information
+                                    that makes it difficult to identify priorities and take action.
+                                </p>
+                            </div>
+                        )}
 
-                    {/* Design Goals */}
-                    <div className="mb-5">
-                        <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wider text-primary-600">
-                            Design Goals
-                        </div>
-                        <ul className="flex flex-col gap-1">
-                            <li className="flex items-start gap-2 text-[13px] text-gray-600">
-                                <span className="mt-0.5 text-primary-500">→</span>
-                                Identify accessibility issues quickly
-                            </li>
-                            <li className="flex items-start gap-2 text-[13px] text-gray-600">
-                                <span className="mt-0.5 text-primary-500">→</span>
-                                Understand why the issues matter
-                            </li>
-                            <li className="flex items-start gap-2 text-[13px] text-gray-600">
-                                <span className="mt-0.5 text-primary-500">→</span>
-                                Take action to resolve them efficiently
-                            </li>
-                        </ul>
-                    </div>
+                        {/* Design Goals */}
+                        <button
+                            type="button"
+                            className="flex border border-primary-100 w-full items-center justify-between rounded-[6px] px-2 py-2 text-left transition-colors hover:bg-gray-50"
+                            onClick={() => toggleSection("goals")}
+                        >
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-primary-600">Design Goals</span>
+                            <ChevronDown className={`h-3.5 w-3.5 text-gray-400 transition-transform ${openSection === "goals" ? "rotate-180" : ""}`} />
+                        </button>
+                        {openSection === "goals" && (
+                            <div className="px-2 pb-2">
+                                <ul className="flex flex-col gap-1">
+                                    <li className="flex items-start gap-2 text-[13px] text-gray-600">
+                                        <span className="mt-0.5 text-primary-500">→</span>
+                                        Identify accessibility issues quickly
+                                    </li>
+                                    <li className="flex items-start gap-2 text-[13px] text-gray-600">
+                                        <span className="mt-0.5 text-primary-500">→</span>
+                                        Understand why the issues matter
+                                    </li>
+                                    <li className="flex items-start gap-2 text-[13px] text-gray-600">
+                                        <span className="mt-0.5 text-primary-500">→</span>
+                                        Take action to resolve them efficiently
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
 
-                    {/* Direction */}
-                    <div className="mb-6">
-                        <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wider text-primary-600">
-                            Approach
-                        </div>
-                        <p className="text-[13px] leading-relaxed text-gray-600">
-                            Action-focused interface that combines strong information organization
-                            with quick task completion — reducing cognitive load while
-                            encouraging resolution.
-                        </p>
+                        {/* Approach */}
+                        <button
+                            type="button"
+                            className="flex border border-primary-100 w-full items-center justify-between rounded-[6px] px-2 py-2 text-left transition-colors hover:bg-gray-50"
+                            onClick={() => toggleSection("approach")}
+                        >
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-primary-600">Approach</span>
+                            <ChevronDown className={`h-3.5 w-3.5 text-gray-400 transition-transform ${openSection === "approach" ? "rotate-180" : ""}`} />
+                        </button>
+                        {openSection === "approach" && (
+                            <div className="px-2 pb-2">
+                                <p className="text-[13px] leading-relaxed text-gray-600">
+                                    Action-focused interface that combines strong information organization
+                                    with quick task completion — reducing cognitive load while
+                                    encouraging resolution.
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* How to explore */}

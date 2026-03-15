@@ -27,38 +27,40 @@ export default function DocumentUpload({ onUpload }: DocumentUploadProps) {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-gray-300 bg-white transition-all hover:border-primary-400">
-      <div
-        className="flex h-full w-full flex-col items-center justify-center gap-5 p-8"
-        onClick={handleClick}
-        onDragOver={(e) => {
-          e.preventDefault();
-          e.currentTarget.parentElement?.classList.add("!border-primary-400", "!bg-primary-100/50");
-        }}
-        onDragLeave={(e) => {
-          e.currentTarget.parentElement?.classList.remove("!border-primary-400", "!bg-primary-100/50");
-        }}
-        onDrop={handleDrop}
-        style={{ cursor: "pointer" }}
-      >
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-100">
-          <Upload className="h-8 w-8 text-primary-600" strokeWidth={1.5} />
-        </div>
-        <div className="text-center">
-          <div className="text-base font-semibold text-gray-800">Upload a document</div>
-          <div className="mt-1 text-sm text-gray-600">
-            Drop a PDF, Word, or PowerPoint file here
-          </div>
-        </div>
-        <button
-          className="rounded-[6px] bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-primary-700 hover:shadow-md active:scale-[0.98]"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleClick();
+    <div className="rounded-[10px] border border-gray-200 bg-white p-3 transition-all">
+      <div className="flex h-full flex-col items-center justify-center rounded-[8px] border-2 border-dashed border-gray-300 transition-all hover:border-primary-400">
+        <div
+          className="flex h-full w-full flex-col items-center justify-center gap-5 p-8"
+          onClick={handleClick}
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.currentTarget.parentElement?.classList.add("!border-primary-400", "!bg-primary-100/50");
           }}
+          onDragLeave={(e) => {
+            e.currentTarget.parentElement?.classList.remove("!border-primary-400", "!bg-primary-100/50");
+          }}
+          onDrop={handleDrop}
+          style={{ cursor: "pointer" }}
         >
-          Browse Files
-        </button>
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-100">
+            <Upload className="h-8 w-8 text-primary-600" strokeWidth={1.5} />
+          </div>
+          <div className="text-center">
+            <div className="text-base font-semibold text-gray-800">Upload a document</div>
+            <div className="mt-1 text-sm text-gray-600">
+              Drop a PDF, Word, or PowerPoint file here
+            </div>
+          </div>
+          <button
+            className="rounded-[6px] bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-primary-700 hover:shadow-md active:scale-[0.98]"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick();
+            }}
+          >
+            Browse Files
+          </button>
+        </div>
       </div>
     </div>
   );
